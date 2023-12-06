@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TF6250 Server Tester</title>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-container">
+      <h1>TF6250 Server Tester</h1>
+      <p>
+        This tool will test the reading and writing of coils and registers which
+        are available when using the TF6250 server with it's default
+        configuration.
+      </p>
+      <div class="input-area">
+        <input type="radio" id="local" name="ipType" value="local" checked />
+        <label for="local">Local (127.0.0.1)</label><br />
+        <input type="radio" id="custom" name="ipType" value="custom" />
+        <label for="custom">Custom</label>
+        <input
+          type="text"
+          id="ipAddress"
+          placeholder="Enter custom IP address"
+          disabled
+        /><br />
+        <button id="startTest">Start Test</button>
+      </div>
+      <div id="testResults" class="terminal"></div>
+    </div>
+    <script src="renderer.js"></script>
+  </body>
+</html>
