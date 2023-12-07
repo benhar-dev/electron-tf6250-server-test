@@ -9,49 +9,62 @@ document.getElementById("startTest").addEventListener("click", async () => {
     return;
   }
 
-  await executeTest(runTest1, "Test Create Connection", ipAddress);
-});
+  // await executeTest(runTest1, "Test Create Connection", ipAddress);
 
-async function executeTest(testFunction, testName, ipAddress) {
-  const client = new ModbusRTU();
-  try {
-    await client.connectTCP(ipAddress, { port: 502 });
-    await testFunction(client);
-  } catch (error) {
-    displayResult(testName, false, error.message);
-  }
-}
+  tests.forEach(async (test) => {
+    if (document.getElementById(test.name).checked) {
+      executeTest(test.func, test.name, ipAddress);
 
-function getIpAddress() {
-  const ipType = document.querySelector('input[name="ipType"]:checked').value;
-  if (ipType === "local") {
-    return "127.0.0.1";
-  } else {
-    return document.getElementById("ipAddress").value;
-  }
-}
-
-document.querySelectorAll('input[name="ipType"]').forEach((input) => {
-  input.addEventListener("change", () => {
-    const customIpField = document.getElementById("ipAddress");
-    if (input.value === "custom") {
-      customIpField.disabled = false;
-    } else {
-      customIpField.disabled = true;
-      customIpField.value = "";
+      // try {
+      //   await test.func(ipAddress);
+      //   // Display success for each test
+      //   displayResult(test.name, true, 'Complete');
+      // } catch (error) {
+      //   // Display error for each test
+      //   displayResult(test.name, false, error.message);
+      // }
     }
   });
 });
 
-async function runTest1(client) {
-  // Replace with your actual test logic
+// Example array of tests
+const tests = [
+  { name: "Test 1", func: runTest1 },
+  { name: "Test 2", func: runTest1 },
+  // Add more tests here
+];
 
-  await client.writeCoil(32768, true);
-  let val = await client.readInputRegisters(0x8000, 1);
+// Function to display tests
+function loadTests() {
+  const testsListDiv = document.getElementById("testsList");
+  testsListDiv.innerHTML = ""; // Clear existing content
+  tests.forEach((test) => {
+    const checkBox = document.createElement("input");
+    checkBox.type = "checkbox";
+    checkBox.id = test.name;
+    checkBox.checked = true;
 
-  // Check the test result here and call displayResult accordingly
-  // Assuming test is successful if no exceptions
-  displayResult("Test 1", true, "Complete");
+    const label = document.createElement("label");
+    label.htmlFor = test.name;
+    label.textContent = test.name;
+
+    testsListDiv.appendChild(checkBox);
+    testsListDiv.appendChild(label);
+    testsListDiv.appendChild(document.createElement("br"));
+  });
+}
+
+function toggleTestsDisplay() {
+  const testsDiv = document.getElementById("tests");
+  const testsListDiv = document.getElementById("testsList");
+  if (testsDiv.style.maxHeight) {
+    // Panel is open, so close it
+    testsDiv.style.maxHeight = null;
+  } else {
+    if (!testsListDiv.innerHTML) loadTests(); // Display tests only if not already displayed
+    // Set max-height to the panel's scrollHeight for smooth expansion
+    testsDiv.style.maxHeight = testsDiv.scrollHeight + "px";
+  }
 }
 
 function displayResult(testName, success, message) {
@@ -64,3 +77,46 @@ function displayResult(testName, success, message) {
   } ${message}`;
   resultsDiv.appendChild(result);
 }
+
+document
+  .getElementById("showTests")
+  .addEventListener("click", toggleTestsDisplay);
+
+async function executeTest(testFunction, testName, ipAddress) {
+  function pass(message) {
+    displayResult(testName, true, message);
+  }
+
+  function fail(message) {
+    displayResult(testName, false, message);
+  }
+
+  const client = new ModbusRTU();
+  try {
+    await client.connectTCP(ipAddress, { port: 502 });
+    await testFunction(client, pass, fail);
+  } catch (error) {
+    fail(error.message);
+  }
+}
+
+function getIpAddress() {
+  const ipType = document.querySelector('input[name="ipType"]:checked').value;
+  if (ipType === "local") {
+    return "127.0.0.1";
+  } else {
+    return document.getElementById("ipAddress").value;
+  }
+}
+
+async function runTest1(client, pass, fail) {
+  // Replace with your actual test logic
+
+  await client.writeCoil(32768, true);
+  let val = await client.readInputRegisters(0x8000, 1);
+  pass("complete");
+  fail("fa");
+  displayResult(testName, true, "Complete");
+}
+
+loadTests();

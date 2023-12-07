@@ -1,32 +1,64 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="UTF-8" />
     <title>TF6250 Server Tester</title>
     <link rel="stylesheet" type="text/css" href="styles.css" />
+    <!-- Ensure that you include viewport settings even for Electron apps for consistency -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
   <body>
-    <div class="app-container">
-      <h1>TF6250 Server Tester</h1>
-      <p>
-        This tool will test the reading and writing of coils and registers which
-        are available when using the TF6250 server with it's default
-        configuration.
-      </p>
-      <div class="input-area">
-        <input type="radio" id="local" name="ipType" value="local" checked />
-        <label for="local">Local (127.0.0.1)</label><br />
-        <input type="radio" id="custom" name="ipType" value="custom" />
-        <label for="custom">Custom</label>
-        <input
-          type="text"
-          id="ipAddress"
-          placeholder="Enter custom IP address"
-          disabled
-        /><br />
+    <main class="app-container">
+      <header>
+        <h1>TF6250 Server Tester</h1>
+      </header>
+
+      <section class="description">
+        <p>
+          This tool is designed to test the reading and writing capabilities of
+          coils and registers using the TF6250 server with its default
+          configuration. Detailed tests can be reviewed
+          <a href="#" id="showTests" class="show-tests-link">here</a>.
+        </p>
+      </section>
+
+      <section id="tests" class="tests">
+        <h2>Tests</h2>
+        <p>Deselect any tests that you do not wish to run.</p>
+        <div id="testsList" class="tests-list"></div>
+      </section>
+
+      <section class="input-area">
+        <fieldset>
+          <legend>Server IP Configuration</legend>
+          <label for="local">
+            <input
+              type="radio"
+              id="local"
+              name="ipType"
+              value="local"
+              checked
+            />
+            Local (127.0.0.1)
+          </label>
+          <label for="custom">
+            <input type="radio" id="custom" name="ipType" value="custom" />
+            Custom
+          </label>
+          <input
+            type="text"
+            id="ipAddress"
+            placeholder="Enter custom IP address"
+          />
+        </fieldset>
         <button id="startTest">Start Test</button>
-      </div>
-      <div id="testResults" class="terminal"></div>
-    </div>
+      </section>
+
+      <section id="testResults" class="terminal">
+        <!-- Results will be displayed here -->
+      </section>
+    </main>
+
     <script src="renderer.js"></script>
   </body>
 </html>
