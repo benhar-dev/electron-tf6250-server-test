@@ -1,122 +1,179 @@
 const ModbusRTU = require("modbus-serial");
+const net = require("net");
 
-document.getElementById("startTest").addEventListener("click", async () => {
-  document.getElementById("testResults").innerHTML = ""; // Clear previous results
+const MODBUS_PORT = 502;
 
-  let ipAddress = getIpAddress();
-  if (!ipAddress) {
-    alert("Please enter an IP address.");
-    return;
+function initializeApp() {
+  const lastIpAddress = localStorage.getItem("lastIpAddress");
+  if (lastIpAddress) {
+    document.getElementById("ipAddress").value = lastIpAddress;
   }
 
-  // await executeTest(runTest1, "Test Create Connection", ipAddress);
+  document.getElementById("ipAddress").addEventListener("input", (event) => {
+    localStorage.setItem("lastIpAddress", event.target.value);
+  });
 
-  tests.forEach(async (test) => {
-    if (document.getElementById(test.name).checked) {
-      executeTest(test.func, test.name, ipAddress);
+  document.getElementById("startTest").addEventListener("click", startTests);
+  document
+    .getElementById("showTests")
+    .addEventListener("click", toggleTestsDisplay);
+  loadTests();
+}
 
-      // try {
-      //   await test.func(ipAddress);
-      //   // Display success for each test
-      //   displayResult(test.name, true, 'Complete');
-      // } catch (error) {
-      //   // Display error for each test
-      //   displayResult(test.name, false, error.message);
-      // }
+async function startTests() {
+  clearTestResults();
+
+  const ipAddress = getIpAddress();
+  const tests = getSelectedTests();
+
+  displayInfomation("Tests starting.");
+  try {
+    for (const test of tests) {
+      await executeTest(test.func, test.name, ipAddress);
     }
-  });
-});
+    displayInfomation("Tests complete!");
+  } catch (error) {
+    displayInfomation("Tests aborted due to failure.");
+  }
+}
 
-// Example array of tests
-const tests = [
-  { name: "Test 1", func: runTest1 },
-  { name: "Test 2", func: runTest1 },
-  // Add more tests here
-];
+function getSelectedTests() {
+  return modbusTests.filter(
+    (test) => document.getElementById(test.name).checked
+  );
+}
 
-// Function to display tests
-function loadTests() {
-  const testsListDiv = document.getElementById("testsList");
-  testsListDiv.innerHTML = ""; // Clear existing content
-  tests.forEach((test) => {
-    const checkBox = document.createElement("input");
-    checkBox.type = "checkbox";
-    checkBox.id = test.name;
-    checkBox.checked = true;
-
-    const label = document.createElement("label");
-    label.htmlFor = test.name;
-    label.textContent = test.name;
-
-    testsListDiv.appendChild(checkBox);
-    testsListDiv.appendChild(label);
-    testsListDiv.appendChild(document.createElement("br"));
-  });
+function clearTestResults() {
+  document.getElementById("testResults").innerHTML = "";
 }
 
 function toggleTestsDisplay() {
   const testsDiv = document.getElementById("tests");
-  const testsListDiv = document.getElementById("testsList");
-  if (testsDiv.style.maxHeight) {
-    // Panel is open, so close it
-    testsDiv.style.maxHeight = null;
-  } else {
-    if (!testsListDiv.innerHTML) loadTests(); // Display tests only if not already displayed
-    // Set max-height to the panel's scrollHeight for smooth expansion
-    testsDiv.style.maxHeight = testsDiv.scrollHeight + "px";
+  toggleElementDisplay(testsDiv);
+}
+
+function toggleElementDisplay(element) {
+  element.style.maxHeight = element.style.maxHeight
+    ? null
+    : element.scrollHeight + "px";
+}
+
+async function executeTest(testFunction, testName, ipAddress) {
+  try {
+    await testFunction(ipAddress);
+    displayResult(testName, true, "Complete");
+  } catch (error) {
+    displayResult(testName, false, error.message);
+    throw error;
   }
 }
 
 function displayResult(testName, success, message) {
   const resultsDiv = document.getElementById("testResults");
-  const result = document.createElement("div");
-  result.innerHTML = `${testName}: ${
+  resultsDiv.innerHTML += `<div> ${
     success
-      ? '<span style="color: green;">&#10004;</span>'
-      : '<span style="color: red;">Fail</span>'
-  } ${message}`;
-  resultsDiv.appendChild(result);
+      ? '<span style="color: #90EE90;">[Pass]</span>'
+      : '<span style="color: red;">[Fail]</span>'
+  } ${testName}: ${message}</div>`;
 }
 
-document
-  .getElementById("showTests")
-  .addEventListener("click", toggleTestsDisplay);
-
-async function executeTest(testFunction, testName, ipAddress) {
-  function pass(message) {
-    displayResult(testName, true, message);
-  }
-
-  function fail(message) {
-    displayResult(testName, false, message);
-  }
-
-  const client = new ModbusRTU();
-  try {
-    await client.connectTCP(ipAddress, { port: 502 });
-    await testFunction(client, pass, fail);
-  } catch (error) {
-    fail(error.message);
-  }
+function displayInfomation(message) {
+  const resultsDiv = document.getElementById("testResults");
+  resultsDiv.innerHTML += `<div> ${message}</div>`;
 }
 
 function getIpAddress() {
   const ipType = document.querySelector('input[name="ipType"]:checked').value;
-  if (ipType === "local") {
-    return "127.0.0.1";
-  } else {
-    return document.getElementById("ipAddress").value;
+  return ipType === "local"
+    ? "127.0.0.1"
+    : document.getElementById("ipAddress").value;
+}
+
+function loadTests() {
+  const testsListDiv = document.getElementById("testsList");
+  testsListDiv.innerHTML = modbusTests
+    .map(
+      (test) =>
+        `<input type="checkbox" id="${test.name}" checked><label class="checkLabel" for="${test.name}">${test.name}</label><br>`
+    )
+    .join("");
+}
+
+async function ExampleTest(ipAddress) {
+  // if the test is successful, you just return.
+  // if the test raises an exception then this will be reported by the runner automatically.
+  // however if you want to catch and reraise a new exception then wrap your code as below.
+  /*
+  try {
+    // your code
+  } catch (error) {
+    if (error.code === "SPECIFIC_ERROR_CODE") {
+      throw new Error("Custom error message");
+    } else {
+      // Re-throw the error if it's not the one you're looking for
+      throw error;
+    }
+  }
+  */
+}
+
+async function CheckIpAddress(ipAddress) {
+  const regExp =
+    /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(\.?(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/;
+  if (!regExp.test(ipAddress)) {
+    throw new Error(`Invalid IPv4 address: ${ipAddress}`);
   }
 }
 
-async function runTest1(client, pass, fail) {
-  // Replace with your actual test logic
-
-  await client.writeCoil(32768, true);
-  let val = await client.readInputRegisters(0x8000, 1);
-  pass("complete");
-  fail("fa");
-  displayResult(testName, true, "Complete");
+async function ConnectionCheck(ipAddress) {
+  const client = new ModbusRTU();
+  await client.connectTCP(ipAddress, { port: MODBUS_PORT });
 }
 
-loadTests();
+function PortCheck(ipAddress, timeout = 5000) {
+  return new Promise((resolve, reject) => {
+    const client = new net.Socket();
+    const timer = setTimeout(() => {
+      client.destroy();
+      reject(new Error(`Connection to ${ipAddress} timed out`));
+    }, timeout);
+
+    client.connect(MODBUS_PORT, ipAddress, () => {
+      clearTimeout(timer);
+      client.end();
+      resolve();
+    });
+
+    client.on("error", (err) => {
+      clearTimeout(timer);
+      reject(
+        new Error(
+          `Unable to connect to port ${MODBUS_PORT} at ${ipAddress}: ${err.message}`
+        )
+      );
+    });
+  });
+}
+
+async function WriteToFirstCoil(ipAddress) {
+  const client = new ModbusRTU();
+  await client.connectTCP(ipAddress, { port: MODBUS_PORT });
+  await client.writeCoil(32768, true);
+}
+
+async function WriteToFirstRegister(ipAddress) {
+  const client = new ModbusRTU();
+  await client.connectTCP(ipAddress, { port: MODBUS_PORT });
+  await client.writeRegister(32768, 0xffff);
+}
+
+const modbusTests = [
+  { name: "Check ip addresss", func: CheckIpAddress },
+  { name: "Check connection to port", func: PortCheck },
+  { name: "Check connection", func: ConnectionCheck },
+  { name: "Write to first coil", func: WriteToFirstCoil },
+  { name: "Write to first register", func: WriteToFirstRegister },
+  // Add more tests here
+];
+
+initializeApp();

@@ -64,7 +64,7 @@ button:hover {
   font-family: "Courier New", Courier, monospace;
   white-space: pre-wrap;
   overflow-y: auto;
-  max-height: 300px;
+  max-height: 160px;
 }
 
 .terminal div {
@@ -86,15 +86,19 @@ button:hover {
 }
 
 .show-tests-link {
-  color: #af7c4c;
+  color: #63d8e7;
   text-decoration: underline;
   cursor: pointer;
 }
 
 .show-tests-link:hover {
-  color: #bba066;
+  color: #669cbb;
 }
 
 fieldset {
   border-color: rgb(95 95 95);
+}
+
+.checkLabel {
+  margin-left: 10px;
 }

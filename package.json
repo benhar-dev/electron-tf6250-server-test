@@ -10,6 +10,7 @@
   },
   "build": {
     "appId": "electron-tf6250-server-test",
+    "productName": "TF6250 Server Tester",
     "win": {
       "target": "nsis"
     }
