@@ -13,6 +13,16 @@ function initializeApp() {
     localStorage.setItem("lastIpAddress", event.target.value);
   });
 
+  document
+    .getElementById("ipAddress")
+    .addEventListener("keypress", function (event) {
+      if (event.key === "Enter") {
+        document.getElementById("custom").checked = true;
+        event.preventDefault();
+        startTests();
+      }
+    });
+
   document.getElementById("startTest").addEventListener("click", startTests);
   document
     .getElementById("showTests")

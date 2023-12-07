@@ -4,6 +4,7 @@
 // });
 
 const { app, BrowserWindow } = require("electron");
+const packageJson = require("./package.json");
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -17,6 +18,10 @@ function createWindow() {
   });
   win.setMenu(null);
   win.loadFile("index.html");
+
+  win.once("ready-to-show", () => {
+    win.setTitle(`TF6250 Server Tester - v${packageJson.version}`);
+  });
 }
 
 app.whenReady().then(createWindow);
