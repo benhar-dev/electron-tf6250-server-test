@@ -6,7 +6,7 @@ This application is designed to test the basic functionality of the Beckhoff TF6
 
 ## Screenshot
 
-![image](./docs/Images/Screenshot.png)
+![image](./docs/images/Screenshot.png)
 
 ## Getting Started using installer
 
