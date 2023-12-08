@@ -1,7 +1,7 @@
-const path = require("path");
-require("electron-reload")(__dirname, {
-  electron: path.join(__dirname, "../", "node_modules", ".bin", "electron"),
-});
+// const path = require("path");
+// require("electron-reload")(__dirname, {
+//   electron: path.join(__dirname, "../", "node_modules", ".bin", "electron"),
+// });
 
 const { app, BrowserWindow, ipcMain } = require("electron");
 const packageJson = require("../package.json");
@@ -33,7 +33,7 @@ function createWindow() {
       contextIsolation: false,
     },
   });
-  // win.setMenu(null);
+  win.setMenu(null);
   win.loadFile("./index.html");
 
   win.once("ready-to-show", () => {
