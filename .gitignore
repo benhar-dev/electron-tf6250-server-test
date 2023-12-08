@@ -1,3 +1,6 @@
+# no need to include the temp json used to create the third-party-notices.txt
+licenses/licenses.json
+
 # Logs
 logs
 *.log

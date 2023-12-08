@@ -2,11 +2,12 @@
   "name": "electron-tf6250-server-test",
   "version": "1.0.0",
   "description": "",
-  "main": "main.js",
+  "main": "./src/main.js",
   "scripts": {
-    "start": "electron main.js",
-    "pack": "electron-builder --dir",
-    "dist": "electron-builder"
+    "start": "electron ./src/main.js",
+    "pre-dist": "license-checker --production --json --customPath './licenses/customFormatExample.json' > licenses/licenses.json",
+    "make-notices": "npm run pre-dist && node ./licenses/makeNotice.js",
+    "dist": "npm run make-notices && electron-builder"
   },
   "build": {
     "appId": "electron-tf6250-server-test",
@@ -23,7 +24,6 @@
     "electron-reload": "^2.0.0-alpha.1"
   },
   "dependencies": {
-    "bootstrap": "^5.3.2",
     "modbus-serial": "^8.0.16"
   }
 }
