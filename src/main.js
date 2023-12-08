@@ -1,4 +1,5 @@
-// const path = require("path");
+const path = require("path");
+
 // require("electron-reload")(__dirname, {
 //   electron: path.join(__dirname, "../", "node_modules", ".bin", "electron"),
 // });
@@ -34,7 +35,7 @@ function createWindow() {
     },
   });
   win.setMenu(null);
-  win.loadFile("./index.html");
+  win.loadFile(path.join(__dirname, "index.html"));
 
   win.once("ready-to-show", () => {
     win.setTitle(`TF6250 Server Tester - v${packageJson.version}`);
