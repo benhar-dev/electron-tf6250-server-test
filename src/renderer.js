@@ -1,9 +1,37 @@
 const ModbusRTU = require("modbus-serial");
 const net = require("net");
+const { ipcRenderer } = require("electron");
 
 const MODBUS_PORT = 502;
 
 function initializeApp() {
+  ipcRenderer.send("request-notices");
+
+  ipcRenderer.on("notices-response", (event, data) => {
+    if (data.startsWith("Error")) {
+      console.error(data);
+    } else {
+      document.getElementById("licenseText").textContent = data;
+    }
+  });
+
+  document.getElementById("licenseLink").onclick = function () {
+    var modal = document.getElementById("licenseModal");
+    var span = document.getElementsByClassName("close")[0];
+
+    modal.style.display = "block";
+
+    span.onclick = function () {
+      modal.style.display = "none";
+    };
+
+    window.onclick = function (event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    };
+  };
+
   const lastIpAddress = localStorage.getItem("lastIpAddress");
   if (lastIpAddress) {
     document.getElementById("ipAddress").value = lastIpAddress;

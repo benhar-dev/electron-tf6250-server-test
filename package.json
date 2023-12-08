@@ -1,11 +1,11 @@
 {
   "name": "electron-tf6250-server-test",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "",
   "main": "./src/main.js",
   "scripts": {
     "start": "electron ./src/main.js",
-    "pre-dist": "license-checker --production --json --customPath './licenses/customFormatExample.json' > licenses/licenses.json",
+    "pre-dist": "license-checker --production --json --customPath './licenses/customFormat.json' > licenses/licenses.json",
     "make-notices": "npm run pre-dist && node ./licenses/makeNotice.js",
     "dist": "npm run make-notices && electron-builder"
   },

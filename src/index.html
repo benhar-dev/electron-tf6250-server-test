@@ -17,7 +17,9 @@
           This tool is designed to test the reading and writing capabilities of
           coils and registers using the TF6250 server with its default
           configuration. Detailed tests can be reviewed
-          <a href="#" id="showTests" class="show-tests-link">here</a>.
+          <a href="#" id="showTests" class="show-tests-link">here</a>. This app
+          was created with third party packages. The licenses can be found
+          <a href="#" id="licenseLink">here</a>.
         </p>
       </section>
 
@@ -52,9 +54,16 @@
         </fieldset>
         <button id="startTest">Start Test</button>
       </section>
-
       <section id="testResults" class="terminal"></section>
     </main>
+
+    <!-- Modal Structure -->
+    <div id="licenseModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <pre id="licenseText"></pre>
+      </div>
+    </div>
 
     <script src="renderer.js"></script>
   </body>

@@ -3,8 +3,25 @@ require("electron-reload")(__dirname, {
   electron: path.join(__dirname, "../", "node_modules", ".bin", "electron"),
 });
 
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, ipcMain } = require("electron");
 const packageJson = require("../package.json");
+const fs = require("fs");
+
+ipcMain.on("request-notices", (event) => {
+  const filePath = path.join(
+    app.getAppPath(),
+    "../",
+    "THIRD-PARTY-NOTICES.txt"
+  );
+
+  fs.readFile(filePath, "utf8", (err, data) => {
+    if (err) {
+      event.reply("notices-response", "Error reading file");
+      return;
+    }
+    event.reply("notices-response", data);
+  });
+});
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -16,7 +33,7 @@ function createWindow() {
       contextIsolation: false,
     },
   });
-  win.setMenu(null);
+  // win.setMenu(null);
   win.loadFile("./index.html");
 
   win.once("ready-to-show", () => {
