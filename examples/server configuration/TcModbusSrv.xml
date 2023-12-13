@@ -1,0 +1,51 @@
+<Configuration>
+	<Port>502</Port>
+	<IpAddr />
+	<Mapping>
+		<InputRegisters>
+			<MappingInfo>
+				<AdsPort>851</AdsPort>
+				<!-- Modbus Address 32768 = 0x8000 -->
+				<StartAddress>32768</StartAddress>
+				<EndAddress>33023</EndAddress>
+				<VarName>GVL.mb_Input_Registers</VarName>
+			</MappingInfo>
+		</InputRegisters>
+		<OutputRegisters>
+			<MappingInfo>
+				<AdsPort>851</AdsPort>
+				<!-- Modbus Address 12288 = 0x3000 -->
+				<StartAddress>12288</StartAddress>
+				<EndAddress>24575</EndAddress>
+				<!-- IndexGroup 16416 = 0x4020 -> plc memory area %M -->
+				<IndexGroup>16416</IndexGroup>
+				<IndexOffset>0</IndexOffset>
+			</MappingInfo>
+			<MappingInfo>
+				<AdsPort>851</AdsPort>
+				<!-- Modbus Address 32768 = 0x8000 -->
+				<StartAddress>32768</StartAddress>
+				<EndAddress>33023</EndAddress>
+				<VarName>GVL.mb_Output_Registers</VarName>
+			</MappingInfo>
+		</OutputRegisters>
+		<InputCoils>
+			<MappingInfo>
+				<AdsPort>851</AdsPort>
+				<!-- Modbus Address 32768 = 0x8000 -->
+				<StartAddress>32768</StartAddress>
+				<EndAddress>33023</EndAddress>
+				<VarName>GVL.mb_Input_Coils</VarName>
+			</MappingInfo>
+		</InputCoils>
+		<OutputCoils>
+			<MappingInfo>
+				<AdsPort>851</AdsPort>
+				<!-- Modbus Address 32768 = 0x8000 -->
+				<StartAddress>32768</StartAddress>
+				<EndAddress>33023</EndAddress>
+				<VarName>GVL.mb_Output_Coils</VarName>
+			</MappingInfo>
+		</OutputCoils>
+	</Mapping>
+</Configuration>
