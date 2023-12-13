@@ -14,17 +14,14 @@ Download and run the TF6250 Server Tester Setup x.x.x.exe found in the releases.
 
 ## Getting Started using Node
 
+These steps are only required if you wish to build, run and deploy your own version of the tool.  The pre-build version of the tool can be found in the releases folder. 
+
 ### Prerequisites
 
 - Node.js (latest stable version)
 - npm (comes with Node.js)
 
 ### Installation
-
-#### Using Release Executable
-
-1. Download the latest release from the [Releases](link-to-your-releases-page) section.
-2. Unpack and run the executable.
 
 #### Building from Source
 
