@@ -4,6 +4,7 @@
 
 This application is designed to test the basic functionality of the Beckhoff TF6250 Modbus Server using default configurations. It provides the flexibility to choose between a local server (`127.0.0.1`) or to input a specific IP address. Users can also select which tests to run, with all tests running by default.
 
+For infomation about the tests, and failure checklists please see [here](https://github.com/benhar-dev/electron-tf6250-server-test/blob/main/README.md#tests-common-error-messages-and-checks)
 ## Screenshot
 
 ![image](./docs/images/Screenshot.png)
