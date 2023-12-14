@@ -14,6 +14,7 @@ For infomation about the tests, and failure checklists please see [here](https:/
 Download and run the [TF6250.Server.Tester.Setup.1.1.0.exe](https://github.com/benhar-dev/electron-tf6250-server-test/releases/download/v1.1.0/TF6250.Server.Tester.Setup.1.1.0.exe).
 
 ## Getting Started with your Modbus Server IPC. 
+For full official instructions see [here](https://infosys.beckhoff.com/english.php?content=../content/1033/tf6250_tc3_modbus_tcp/192710411.html).
 
 ### Windoows 10
 
@@ -33,7 +34,7 @@ Download and run the [TF6250.Server.Tester.Setup.1.1.0.exe](https://github.com/b
 ### Windoows CE
 
 1. Download and install TF6250
-2. Extract and install the CAB file to the CE device using instructions [here](https://infosys.beckhoff.com/english.php?content=../content/1033/tf6250_tc3_modbus_tcp/705884939.html&id=1509253777466000053)
+2. Extract and install the CAB file to the CE device using instructions [here](https://infosys.beckhoff.com/english.php?content=../content/1033/tf6250_tc3_modbus_tcp/705884939.html)
 3. Download the default configuration TcModbusSrv.xml file found [here](https://github.com/benhar-dev/electron-tf6250-server-test/tree/main/examples/server%20configuration) (this is in the examples/server configuration folder of this repo)
 4. Copy the default configuration XML to the TF6250 server folder on the CE device
 5. Open the example project in TwinCAT found [here](https://github.com/benhar-dev/electron-tf6250-server-test/tree/main/examples/twincat/ExampleProject). (this is in the examples/twincat folder of this repo)
