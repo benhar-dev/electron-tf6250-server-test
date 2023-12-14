@@ -16,7 +16,7 @@ Download and run the [TF6250.Server.Tester.Setup.1.1.0.exe](https://github.com/b
 ## Getting Started with your Modbus Server IPC. 
 For full official instructions see [here](https://infosys.beckhoff.com/english.php?content=../content/1033/tf6250_tc3_modbus_tcp/192710411.html).
 
-### Windoows 10
+### Windows 10
 
 1. Download and install TF6250
 2. Download the default configuration TcModbusSrv.xml file found [here](https://github.com/benhar-dev/electron-tf6250-server-test/tree/main/examples/server%20configuration) (this is in the examples/server configuration folder of this repo)
@@ -31,7 +31,7 @@ For full official instructions see [here](https://infosys.beckhoff.com/english.p
 5. Ensure you have enabled the TF6250 Trial License
 6. Activate, Login and Run the PLC project
 
-### Windoows CE
+### Windows CE
 
 1. Download and install TF6250
 2. Extract and install the CAB file to the CE device using instructions [here](https://infosys.beckhoff.com/english.php?content=../content/1033/tf6250_tc3_modbus_tcp/705884939.html)
