@@ -24,7 +24,7 @@ For full official instructions see [here](https://infosys.beckhoff.com/english.p
 
 2. Download the default configuration TcModbusSrv.xml file found [here](https://github.com/benhar-dev/electron-tf6250-server-test/tree/main/examples/server%20configuration) (this is in the examples/server configuration folder of this repo)
 
-3. Import the default configuration XML
+3. Import the default configuration XML (this step is important as some versions of TF6250 can corrupt the configuration when using "Set Default Configuration" 
 
    - The TF6250 configurator is installed per default to the directory
      C:\TwinCAT\Functions\TF6250-Modbus-TCP\Win32\Server
